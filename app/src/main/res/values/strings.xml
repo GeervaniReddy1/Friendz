@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Friendz</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id">271457579986395</string>
+    <string name="fb_login_protocol_scheme">fb271457579986395</string>
+    <array name="facebook_permissions">
+        <item>email</item>
+        <item>user_hometown</item>
+        <item>user_religion_politics</item>
+        <item>user_likes</item>
+        <item>user_status</item>
+        <item>user_about_me</item>
+
+        <item>user_birthday</item>
+
+        <item>user_posts</item>
+
+        <item>user_events</item>
+    </array>
+</resources>
