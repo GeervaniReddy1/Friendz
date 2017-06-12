@@ -1,6 +1,7 @@
 package com.friendz.friendz.fragments;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,11 @@ import android.view.ViewGroup;
 
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.friendz.friendz.Constants;
+import com.friendz.friendz.HomeActivity;
+import com.friendz.friendz.util.Constants;
 import com.friendz.friendz.FriendzApp;
 import com.friendz.friendz.LoginActivity;
 import com.friendz.friendz.R;
@@ -51,20 +54,25 @@ public class LoginFragment extends Fragment {
         loginButton.setFragment(this);
         mEditor = FriendzApp.getInstance().getmPrefs().edit();
         loginButton.setReadPermissions(Arrays.asList(permissions));
+        if(FriendzApp.getInstance().getmPrefs().contains(Constants.FB_ACCESS_TOKEN)){
+            startActivity(new Intent(getActivity(), HomeActivity.class));
+            getActivity().finish();
+        }
         loginButton.registerCallback(mLoginActivity.getCallbackManager(), new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 mEditor.putString(Constants.FB_ACCESS_TOKEN, loginResult.getAccessToken().getToken()).commit();
+                startActivity(new Intent(getActivity(), HomeActivity.class));
             }
 
             @Override
             public void onCancel() {
-
+                System.out.println("Cancelled");
             }
 
             @Override
             public void onError(FacebookException error) {
-
+                System.out.println(error);
             }
         });
         return view;
@@ -74,5 +82,11 @@ public class LoginFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mLoginActivity.getCallbackManager().onActivityResult(requestCode,resultCode,data);
     }
 }

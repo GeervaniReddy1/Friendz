@@ -1,4 +1,4 @@
-package com.friendz.friendz;
+package com.friendz.friendz.util;
 
 /**
  * Created by dineshkumarbalasubramanian on 10/06/17.
