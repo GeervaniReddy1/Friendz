@@ -12,12 +12,11 @@
         <item>user_likes</item>
         <item>user_status</item>
         <item>user_about_me</item>
-
         <item>user_birthday</item>
-
         <item>user_posts</item>
-
+        <item>user_friends</item>
         <item>user_events</item>
+        <item>read_custom_friendlists</item>
     </array>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>

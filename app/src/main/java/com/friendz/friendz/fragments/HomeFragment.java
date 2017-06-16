@@ -14,6 +14,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.friendz.friendz.R;
 import com.friendz.friendz.adapters.FeedAdapter;
+import com.friendz.friendz.db.Posts;
 import com.friendz.friendz.model.PostResponse;
 import com.google.gson.Gson;
 
@@ -22,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.Unbinder;
+import io.realm.Realm;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,10 +54,18 @@ public class HomeFragment extends Fragment {
                 null,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
-                        PostResponse postResponse=new Gson().fromJson(response.getRawResponse(),PostResponse.class);
-                        FeedAdapter adapter=new FeedAdapter(getActivity(),postResponse.getData());
-                        listFeeds.setAdapter(adapter);
+                    public void onCompleted(final GraphResponse response) {
+
+                        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                realm.createObjectFromJson(Posts.class,response.getRawResponse());
+
+                            }
+                        });
+//                        PostResponse postResponse=new Gson().fromJson(response.getRawResponse(),PostResponse.class);
+//                        FeedAdapter adapter=new FeedAdapter(getActivity(),postResponse.getData());
+//                        listFeeds.setAdapter(adapter);
             /* handle the result */
                     }
                 }

@@ -54,14 +54,12 @@ public class LoginFragment extends Fragment {
         loginButton.setFragment(this);
         mEditor = FriendzApp.getInstance().getmPrefs().edit();
         loginButton.setReadPermissions(Arrays.asList(permissions));
-        if(FriendzApp.getInstance().getmPrefs().contains(Constants.FB_ACCESS_TOKEN)){
-            startActivity(new Intent(getActivity(), HomeActivity.class));
-            getActivity().finish();
-        }
+
         loginButton.registerCallback(mLoginActivity.getCallbackManager(), new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 mEditor.putString(Constants.FB_ACCESS_TOKEN, loginResult.getAccessToken().getToken()).commit();
+                mEditor.putString(Constants.FB_USER_ID, loginResult.getAccessToken().getUserId()).commit();
                 startActivity(new Intent(getActivity(), HomeActivity.class));
             }
 

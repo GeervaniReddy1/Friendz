@@ -3,6 +3,9 @@ package com.friendz.friendz;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * Created by dineshkumarbalasubramanian on 10/06/17.
  */
@@ -17,6 +20,10 @@ public class FriendzApp extends Application {
         super.onCreate();
         instance = this;
         mPrefs = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder().schemaVersion(1).build();
+        Realm.setDefaultConfiguration(config);
+
     }
 
     public static FriendzApp getInstance() {

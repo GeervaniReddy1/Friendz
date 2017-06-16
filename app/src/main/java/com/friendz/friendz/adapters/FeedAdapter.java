@@ -25,9 +25,10 @@ import static java.lang.String.*;
  */
 
 public class FeedAdapter extends BaseAdapter {
-    enum type{
+    enum type {
         link(), status, photo, video, offer
     }
+
     Context mContext;
     List<DataItem> dataItems = new ArrayList<>();
     LayoutInflater inflater;
@@ -55,22 +56,22 @@ public class FeedAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder=null;
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.feed_view, null);
-            holder=new ViewHolder(convertView);
-            convertView.setTag(holder);
-        }else{
-            holder= (ViewHolder) convertView.getTag();
-        }
-        DataItem item=dataItems.get(position);
-//        item.getType()
-switch (item.getType()){
-    case "photo":
-        Picasso.with(mContext).load(item.getPicture()).into(holder.imgFeed);
-        break;
-}
-        holder.txtDesc.setText(item.getType());
+        ViewHolder holder = null;
+//        if (convertView == null) {
+//            convertView = inflater.inflate(R.layout.feed_view, null);
+//            holder = new ViewHolder(convertView);
+//            convertView.setTag(holder);
+//        } else {
+//            holder = (ViewHolder) convertView.getTag();
+//        }
+//        PostsDataItem item = dataItems.get(position);
+////        item.getType()
+//        switch (item.getType()) {
+//            case "photo":
+//                Picasso.with(mContext).load(item.getPicture()).into(holder.imgFeed);
+//                break;
+//        }
+//        holder.txtDesc.setText(item.getType());
         return convertView;
     }
 
