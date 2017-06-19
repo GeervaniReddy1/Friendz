@@ -61,6 +61,7 @@ public class LoginFragment extends Fragment {
                 mEditor.putString(Constants.FB_ACCESS_TOKEN, loginResult.getAccessToken().getToken()).commit();
                 mEditor.putString(Constants.FB_USER_ID, loginResult.getAccessToken().getUserId()).commit();
                 startActivity(new Intent(getActivity(), HomeActivity.class));
+                getActivity().finish();
             }
 
             @Override

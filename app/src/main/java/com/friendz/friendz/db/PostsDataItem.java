@@ -22,7 +22,6 @@ public class PostsDataItem extends RealmObject {
     private String name;
     private boolean isInstagramEligible;
     private PostsFrom from;
-    @PrimaryKey
     private String id;
     private String permalinkUrl;
     private String story;

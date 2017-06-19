@@ -70,6 +70,19 @@ public class HomeFragment extends Fragment {
                     }
                 }
         ).executeAsync();
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/friends?fields=id,name, birthday",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(final GraphResponse response) {
+
+                        System.out.println(response);
+            /* handle the result */
+                    }
+                }
+        ).executeAsync();
         return view;
     }
 
