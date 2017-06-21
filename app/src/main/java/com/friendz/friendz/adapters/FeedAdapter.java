@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.friendz.friendz.R;
+import com.friendz.friendz.db.PostsDataItem;
 import com.friendz.friendz.model.DataItem;
 import com.squareup.picasso.Picasso;
 
@@ -17,6 +18,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static java.lang.String.*;
 
@@ -30,10 +33,10 @@ public class FeedAdapter extends BaseAdapter {
     }
 
     Context mContext;
-    List<DataItem> dataItems = new ArrayList<>();
+    List<PostsDataItem> dataItems = new ArrayList<>();
     LayoutInflater inflater;
 
-    public FeedAdapter(Context mContext, List<DataItem> dataItems) {
+    public FeedAdapter(Context mContext, RealmResults<PostsDataItem> dataItems) {
         this.mContext = mContext;
         this.dataItems = dataItems;
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -57,21 +60,21 @@ public class FeedAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-//        if (convertView == null) {
-//            convertView = inflater.inflate(R.layout.feed_view, null);
-//            holder = new ViewHolder(convertView);
-//            convertView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
-//        PostsDataItem item = dataItems.get(position);
-////        item.getType()
-//        switch (item.getType()) {
-//            case "photo":
-//                Picasso.with(mContext).load(item.getPicture()).into(holder.imgFeed);
-//                break;
-//        }
-//        holder.txtDesc.setText(item.getType());
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.feed_view, null);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+        PostsDataItem item = dataItems.get(position);
+//        item.getType()
+        switch (item.getType()) {
+            case "photo":
+                Picasso.with(mContext).load(item.getPicture()).into(holder.imgFeed);
+                break;
+        }
+        holder.txtDesc.setText(item.getType());
         return convertView;
     }
 

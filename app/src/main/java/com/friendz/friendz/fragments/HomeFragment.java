@@ -15,6 +15,7 @@ import com.facebook.HttpMethod;
 import com.friendz.friendz.R;
 import com.friendz.friendz.adapters.FeedAdapter;
 import com.friendz.friendz.db.Posts;
+import com.friendz.friendz.db.PostsDataItem;
 import com.friendz.friendz.model.PostResponse;
 import com.google.gson.Gson;
 
@@ -24,6 +25,7 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.Unbinder;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,9 +65,10 @@ public class HomeFragment extends Fragment {
 
                             }
                         });
+                       RealmResults<PostsDataItem> dataItems= Realm.getDefaultInstance().where(PostsDataItem.class).findAll();
 //                        PostResponse postResponse=new Gson().fromJson(response.getRawResponse(),PostResponse.class);
-//                        FeedAdapter adapter=new FeedAdapter(getActivity(),postResponse.getData());
-//                        listFeeds.setAdapter(adapter);
+                        FeedAdapter adapter=new FeedAdapter(getActivity(),(dataItems));
+                        listFeeds.setAdapter(adapter);
             /* handle the result */
                     }
                 }
