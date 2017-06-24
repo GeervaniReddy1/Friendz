@@ -1,7 +1,13 @@
 package com.friendz.friendz.fragments;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +23,7 @@ import com.friendz.friendz.adapters.FeedAdapter;
 import com.friendz.friendz.db.Posts;
 import com.friendz.friendz.db.PostsDataItem;
 import com.friendz.friendz.model.PostResponse;
+import com.friendz.friendz.service.FacebookSyncService;
 import com.google.gson.Gson;
 
 import butterknife.BindView;
@@ -99,6 +106,10 @@ public class HomeFragment extends Fragment {
                     }
                 }
         ).executeAsync();
+        AlarmManager alarmManager= (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent=new Intent(getActivity(), FacebookSyncService.class);
+        PendingIntent pendingIntent=PendingIntent.getService(getActivity(),0,intent,0);
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),60000,pendingIntent);
         return view;
 
 
