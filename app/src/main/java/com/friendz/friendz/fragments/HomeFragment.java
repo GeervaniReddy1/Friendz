@@ -20,9 +20,11 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.friendz.friendz.R;
 import com.friendz.friendz.adapters.FeedAdapter;
+import com.friendz.friendz.api.ApiHelper;
 import com.friendz.friendz.db.Posts;
 import com.friendz.friendz.db.PostsDataItem;
 import com.friendz.friendz.model.PostResponse;
+import com.friendz.friendz.reciever.EventNotifcationReceiver;
 import com.friendz.friendz.service.FacebookSyncService;
 import com.google.gson.Gson;
 
@@ -33,6 +35,9 @@ import butterknife.OnItemClick;
 import butterknife.Unbinder;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,7 +64,7 @@ public class HomeFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
-                "/me/feed?fields=" + queries,
+                "/me/feed?fields="+queries,
                 null,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
@@ -68,13 +73,13 @@ public class HomeFragment extends Fragment {
                         Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                realm.createObjectFromJson(Posts.class, response.getRawResponse());
+                                realm.createObjectFromJson(Posts.class,response.getRawResponse());
 
                             }
                         });
-                        RealmResults<PostsDataItem> dataItems = Realm.getDefaultInstance().where(PostsDataItem.class).findAll();
+                        RealmResults<PostsDataItem> dataItems= Realm.getDefaultInstance().where(PostsDataItem.class).findAll();
 //                        PostResponse postResponse=new Gson().fromJson(response.getRawResponse(),PostResponse.class);
-                        FeedAdapter adapter = new FeedAdapter(getActivity(), (dataItems));
+                        FeedAdapter adapter=new FeedAdapter(getActivity(),(dataItems));
                         listFeeds.setAdapter(adapter);
             /* handle the result */
                     }
@@ -93,26 +98,25 @@ public class HomeFragment extends Fragment {
                     }
                 }
         ).executeAsync();
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/events",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(final GraphResponse response) {
-
-                        System.out.println(response);
-            /* handle the result */
-                    }
-                }
-        ).executeAsync();
         AlarmManager alarmManager= (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent=new Intent(getActivity(), FacebookSyncService.class);
-        PendingIntent pendingIntent=PendingIntent.getService(getActivity(),0,intent,0);
+        Intent intent=new Intent(getActivity(), EventNotifcationReceiver.class);
+        intent.putExtra("Name","Dinesh Has sent this.");
+//        PendingIntent pendingIntent=PendingIntent.getService(getActivity(),0,intent,0);
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(getActivity(),0,intent,0);
         alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),60000,pendingIntent);
+
+        new ApiHelper().getWeather("us,london","b1b15e88fa797225412429c1c50c122a1").enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                System.out.println(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+            }
+        });
         return view;
-
-
     }
 
     @Override
