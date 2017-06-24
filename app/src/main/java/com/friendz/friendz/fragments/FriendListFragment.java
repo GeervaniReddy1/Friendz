@@ -18,10 +18,15 @@ import com.friendz.friendz.adapters.FriendsListAdapter;
 import com.friendz.friendz.model.FriendsResponse;
 import com.friendz.friendz.util.Constants;
 import com.google.gson.Gson;
+//import com.friendz.friendz.db.DataItem;
+import com.friendz.friendz.db.FriendsList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import butterknife.OnItemClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,15 +51,29 @@ public class FriendListFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
-                "782489875094649/friends?fields=id,name&limit=100",
+                "me/friends?fields=id,name&limit=100",
                 null,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
-                    public void onCompleted(GraphResponse response) {
+                    public void onCompleted(final GraphResponse response) {
             /* handle the result */
-                        FriendsResponse friendsResponse=new Gson().fromJson(response.getRawResponse(),FriendsResponse.class);
-                        FriendsListAdapter adapter=new FriendsListAdapter(getActivity(),friendsResponse.getData());
-                        listFriends.setAdapter(adapter);
+
+            System.out.println(response);
+
+////                        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+////                            @Override
+////                            public void execute(Realm realm) {
+////                                realm.createObjectFromJson(FriendsList.class,response.getRawResponse());
+//
+//                            }
+//                        });
+
+
+
+//                        RealmResults<DataItem> friends= Realm.getDefaultInstance().where(DataItem.class).findAll();
+//                        // FriendsResponse friendsResponse=new Gson().fromJson(response.getRawResponse(),FriendsResponse.class);
+//                        FriendsListAdapter adapter=new FriendsListAdapter(getActivity(),(friends));
+//                        listFriends.setAdapter(adapter);
 
                     }
                 }
@@ -66,5 +85,8 @@ public class FriendListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+    @OnItemClick(R.id.listFriends)
+    public void onItemClicked() {
     }
 }

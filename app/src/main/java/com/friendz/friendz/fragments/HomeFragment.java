@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
-                "/me/feed?fields="+queries,
+                "/me/feed?fields=" + queries,
                 null,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
@@ -61,13 +61,13 @@ public class HomeFragment extends Fragment {
                         Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                realm.createObjectFromJson(Posts.class,response.getRawResponse());
+                                realm.createObjectFromJson(Posts.class, response.getRawResponse());
 
                             }
                         });
-                       RealmResults<PostsDataItem> dataItems= Realm.getDefaultInstance().where(PostsDataItem.class).findAll();
+                        RealmResults<PostsDataItem> dataItems = Realm.getDefaultInstance().where(PostsDataItem.class).findAll();
 //                        PostResponse postResponse=new Gson().fromJson(response.getRawResponse(),PostResponse.class);
-                        FeedAdapter adapter=new FeedAdapter(getActivity(),(dataItems));
+                        FeedAdapter adapter = new FeedAdapter(getActivity(), (dataItems));
                         listFeeds.setAdapter(adapter);
             /* handle the result */
                     }
@@ -86,7 +86,22 @@ public class HomeFragment extends Fragment {
                     }
                 }
         ).executeAsync();
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/events",
+                null,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(final GraphResponse response) {
+
+                        System.out.println(response);
+            /* handle the result */
+                    }
+                }
+        ).executeAsync();
         return view;
+
+
     }
 
     @Override

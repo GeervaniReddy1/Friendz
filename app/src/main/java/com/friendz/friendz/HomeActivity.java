@@ -23,6 +23,7 @@ public class HomeActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.content,new HomeFragment()).commit();
                     return true;
                 case R.id.navigation_dashboard:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content,new FriendListFragment()).commit();
                     return true;
                 case R.id.navigation_notifications:
                     return true;
