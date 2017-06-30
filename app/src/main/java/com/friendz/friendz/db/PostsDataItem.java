@@ -3,6 +3,7 @@ package com.friendz.friendz.db;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 public class PostsDataItem extends RealmObject {
     private String createdTime;
@@ -22,6 +23,7 @@ public class PostsDataItem extends RealmObject {
     private String name;
     private boolean isInstagramEligible;
     private PostsFrom from;
+    @PrimaryKey
     private String id;
     private String permalinkUrl;
     private String story;

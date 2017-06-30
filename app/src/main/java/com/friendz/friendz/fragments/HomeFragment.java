@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
@@ -15,9 +16,13 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.facebook.AccessToken;
+import com.facebook.FacebookActivity;
+import com.facebook.FacebookDialog;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
+import com.friendz.friendz.FriendzApp;
 import com.friendz.friendz.R;
 import com.friendz.friendz.adapters.FeedAdapter;
 import com.friendz.friendz.api.ApiHelper;
@@ -27,6 +32,13 @@ import com.friendz.friendz.model.PostResponse;
 import com.friendz.friendz.reciever.EventNotifcationReceiver;
 import com.friendz.friendz.service.FacebookSyncService;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +56,8 @@ import retrofit2.Response;
  */
 public class HomeFragment extends Fragment {
 
+    @Inject
+    SharedPreferences mPref;
 
     @BindView(R.id.listFeeds)
     ListView listFeeds;
@@ -62,6 +76,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
+        ((FriendzApp)getActivity().getApplication()).getComponent().inject(this);
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
                 "/me/feed?fields="+queries,
@@ -69,11 +84,19 @@ public class HomeFragment extends Fragment {
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(final GraphResponse response) {
-
+                        String data=new String();
+                        try {
+                            JSONObject jsonObject=new JSONObject(response.getRawResponse());
+                            data=jsonObject.getJSONArray("data").toString();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        final String finalData = data;
                         Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                realm.createObjectFromJson(Posts.class,response.getRawResponse());
+
+                                realm.createOrUpdateAllFromJson(PostsDataItem.class, finalData);
 
                             }
                         });
@@ -85,6 +108,22 @@ public class HomeFragment extends Fragment {
                     }
                 }
         ).executeAsync();
+
+        LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList(new String[]{"publish_actions"}));
+        Bundle bundle =new  Bundle();
+        bundle.putString("message","My first test post in fb");
+
+        new GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/feed",
+                bundle,
+                HttpMethod.POST,
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        System.out.println("Posted Resp: "+response);
+                    }
+                }).executeAsync();
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
                 "/me/friends?fields=id,name, birthday",
@@ -105,17 +144,6 @@ public class HomeFragment extends Fragment {
         PendingIntent pendingIntent=PendingIntent.getBroadcast(getActivity(),0,intent,0);
         alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(),60000,pendingIntent);
 
-        new ApiHelper().getWeather("us,london","b1b15e88fa797225412429c1c50c122a1").enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                System.out.println(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
-            }
-        });
         return view;
     }
 

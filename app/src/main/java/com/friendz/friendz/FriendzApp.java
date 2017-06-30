@@ -3,6 +3,10 @@ package com.friendz.friendz;
 import android.app.Application;
 import android.content.SharedPreferences;
 
+import com.friendz.friendz.app.AppComponent;
+import com.friendz.friendz.app.AppModule;
+import com.friendz.friendz.app.DaggerAppComponent;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -14,6 +18,7 @@ public class FriendzApp extends Application {
     private static final String PREFERENCE_NAME = "friendz_app";
     static FriendzApp instance;
     SharedPreferences mPrefs;
+    AppComponent component;
 
     @Override
     public void onCreate() {
@@ -23,7 +28,12 @@ public class FriendzApp extends Application {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().schemaVersion(1).build();
         Realm.setDefaultConfiguration(config);
+        component=DaggerAppComponent.builder().appModule(new AppModule(this)).build();
+        component.inject(this);
+    }
 
+    public AppComponent getComponent() {
+        return component;
     }
 
     public static FriendzApp getInstance() {
