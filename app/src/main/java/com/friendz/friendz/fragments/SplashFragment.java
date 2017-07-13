@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.friendz.friendz.FriendzApp;
 import com.friendz.friendz.HomeActivity;
+import com.friendz.friendz.InstagramActivity;
 import com.friendz.friendz.R;
 import com.friendz.friendz.util.Constants;
 

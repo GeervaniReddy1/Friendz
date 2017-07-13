@@ -51,7 +51,9 @@
         <receiver
             android:name=".reciever.EventNotifcationReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
+
+        <activity android:name=".InstagramActivity"></activity>
     </application>
 
 </manifest>

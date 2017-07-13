@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.facebook.AccessToken;
 import com.facebook.FacebookActivity;
 import com.facebook.FacebookDialog;
+import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
@@ -30,6 +31,9 @@ import com.friendz.friendz.db.Posts;
 import com.friendz.friendz.db.PostsDataItem;
 import com.friendz.friendz.model.PostResponse;
 import com.friendz.friendz.reciever.EventNotifcationReceiver;
+import com.friendz.friendz.request.FbMessageReq;
+import com.friendz.friendz.request.Message;
+import com.friendz.friendz.request.Recipient;
 import com.friendz.friendz.service.FacebookSyncService;
 import com.google.gson.Gson;
 
@@ -77,6 +81,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
         ((FriendzApp)getActivity().getApplication()).getComponent().inject(this);
+        System.out.println("#####TOKEN##### "+AccessToken.getCurrentAccessToken().getToken());
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
                 "/me/feed?fields="+queries,
@@ -109,34 +114,34 @@ public class HomeFragment extends Fragment {
                 }
         ).executeAsync();
 
-        LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList(new String[]{"publish_actions"}));
-        Bundle bundle =new  Bundle();
-        bundle.putString("message","My first test post in fb");
-
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/feed",
-                bundle,
-                HttpMethod.POST,
-                new GraphRequest.Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse response) {
-                        System.out.println("Posted Resp: "+response);
-                    }
-                }).executeAsync();
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/friends?fields=id,name, birthday",
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(final GraphResponse response) {
-
-                        System.out.println(response);
-            /* handle the result */
-                    }
-                }
-        ).executeAsync();
+//        LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList(new String[]{"publish_actions, manage_notifications"}));
+//        Bundle bundle =new  Bundle();
+//        bundle.putString("message","My first test post in fb");
+//        new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/me/feed",
+//                bundle,
+//                HttpMethod.POST,
+//                new GraphRequest.Callback() {
+//                    @Override
+//                    public void onCompleted(GraphResponse response) {
+//                        System.out.println("Posted Resp: "+response);
+//                    }
+//                }).executeAsync();
+//        new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/me/friends?fields=id,name, birthday",
+//                null,
+//                HttpMethod.GET,
+//                new GraphRequest.Callback() {
+//                    public void onCompleted(final GraphResponse response) {
+//
+//                        System.out.println(response);
+//            /* handle the result */
+//                    }
+//                }
+//        ).executeAsync();
+//        sendMessage();
         AlarmManager alarmManager= (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intent=new Intent(getActivity(), EventNotifcationReceiver.class);
         intent.putExtra("Name","Dinesh Has sent this.");
@@ -155,5 +160,28 @@ public class HomeFragment extends Fragment {
 
     @OnItemClick(R.id.listFeeds)
     public void onItemClicked() {
+    }
+
+    private void sendMessage(){
+        FbMessageReq msg=new FbMessageReq();
+        Message m=new Message();
+        m.setText("Hey How r u");
+        Recipient r=new Recipient();
+        r.setId("1872801576304970");
+        msg.setMessage(m);
+        msg.setRecipient(r);
+        String url="https://graph.facebook.com/v2.6/me/messages?access_token="+AccessToken.getCurrentAccessToken().getToken();
+        new ApiHelper().sendMessage(url,msg).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if(isAdded())
+                System.out.println(response);
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                System.out.println(t);
+            }
+        });
     }
 }
