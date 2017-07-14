@@ -16,6 +16,7 @@
         <item>user_posts</item>
         <item>user_friends</item>
         <item>user_events</item>
+
         <item>read_custom_friendlists</item>
     </array>
     <string name="title_activity_home">HomeActivity</string>
