@@ -1,5 +1,6 @@
 package com.friendz.friendz.api;
 
+import com.friendz.friendz.db.InstagramMediaResponse;
 import com.friendz.friendz.request.FbMessageReq;
 
 import okhttp3.OkHttpClient;
@@ -15,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiHelper {
 private static final String BASE_URL="https://api.instagram.com/v1/";
 
-    public Call<Object> getInstagramData(String accessToken){
+    public Call<InstagramMediaResponse> getInstagramData(String accessToken){
         return getRetrofit().create(FriendsApi.class).getInstagramData(accessToken);
     }
     public Call<Object> sendMessage(String url,FbMessageReq req){

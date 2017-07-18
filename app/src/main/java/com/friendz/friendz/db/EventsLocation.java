@@ -70,7 +70,7 @@ public class EventsLocation extends RealmObject{
 	@Override
  	public String toString(){
 		return 
-			"Location{" + 
+			"InstaLocation{" +
 			"zip = '" + zip + '\'' + 
 			",country = '" + country + '\'' + 
 			",city = '" + city + '\'' + 

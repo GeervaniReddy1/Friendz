@@ -11,6 +11,9 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.friendz.friendz.api.ApiHelper;
+import com.friendz.friendz.db.InstaDataItem;
+import com.friendz.friendz.db.InstagramMediaResponse;
+import com.friendz.friendz.db.PostsDataItem;
 import com.google.gson.Gson;
 import com.steelkiwi.instagramhelper.InstagramHelper;
 import com.steelkiwi.instagramhelper.InstagramHelperConstants;
@@ -45,7 +48,7 @@ public class InstagramActivity extends AppCompatActivity {
                 .build();
         if (SharedPrefUtils.getToken(this) == null)
             instagramHelper.loginFromActivity(this);
-        getInstaData();
+//        getInstaData();?
 
     }
 
@@ -56,14 +59,7 @@ public class InstagramActivity extends AppCompatActivity {
         if (requestCode == InstagramHelperConstants.INSTA_LOGIN && resultCode == RESULT_OK) {
             InstagramUser user = instagramHelper.getInstagramUser(this);
             System.out.println(SharedPrefUtils.getToken(this));
-            try {
-                new SimpleDateFormat().parse("");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            System.out.println(new Gson().toJson(user));
-
-
+            finish();
 //            Picasso.with(this).load(user.getData().getProfilePicture()).into(userPhoto);
 //            userTextInfo.setText(user.getData().getUsername() + "\n"
 //                    + user.getData().getFullName() + "\n"
@@ -75,19 +71,5 @@ public class InstagramActivity extends AppCompatActivity {
         }
     }
 
-    private void getInstaData() {
-        ApiHelper helper = new ApiHelper();
-        helper.getInstagramData(SharedPrefUtils.getToken(this)).enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
 
-                System.out.println(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                System.out.println(t);
-            }
-        });
-    }
 }

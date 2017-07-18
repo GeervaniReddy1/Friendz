@@ -1,5 +1,6 @@
 package com.friendz.friendz.api;
 
+import com.friendz.friendz.db.InstagramMediaResponse;
 import com.friendz.friendz.request.FbMessageReq;
 
 import java.util.Objects;
@@ -18,7 +19,7 @@ import retrofit2.http.Url;
 public interface FriendsApi {
 
     @GET("users/self/media/recent")
-     Call<Object> getInstagramData(@Query("access_token") String accessToken);
+     Call<InstagramMediaResponse> getInstagramData(@Query("access_token") String accessToken);
 
     @POST
     Call<Object> sendFbMessage(@Url String url, @Body FbMessageReq req);

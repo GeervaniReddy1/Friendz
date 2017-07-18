@@ -11,6 +11,7 @@ import com.facebook.AccessToken;
 import com.facebook.FacebookException;
 import com.friendz.friendz.fragments.FriendListFragment;
 import com.friendz.friendz.fragments.HomeFragment;
+import com.friendz.friendz.fragments.InstaFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -28,6 +29,9 @@ public class HomeActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.content,new FriendListFragment()).commit();
                     return true;
                 case R.id.navigation_notifications:
+                    return true;
+                case R.id.navigation_insta:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content,new InstaFragment()).commit();
                     return true;
             }
             return false;

@@ -72,7 +72,7 @@ public class EventsDataItem extends RealmObject{
 	@Override
  	public String toString(){
 		return 
-			"DataItem{" + 
+			"InstaDataItem{" +
 			"start_time = '" + startTime + '\'' + 
 			",rsvp_status = '" + rsvpStatus + '\'' + 
 			",end_time = '" + endTime + '\'' + 

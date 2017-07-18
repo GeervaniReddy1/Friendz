@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    String queries = "id, application, call_to_action, caption, created_time, description, feed_targeting, from, icon,   instagram_eligibility, is_hidden, is_instagram_eligible, is_published, link, message, message_tags, name, object_id, parent_id, permalink_url, picture, place, privacy, properties, shares, source, status_type, story, story_tags, targeting, to, type, updated_time, with_tags";
+    String queries = "comments,likes,id, application, call_to_action, caption, created_time, description, feed_targeting, from, icon,   instagram_eligibility, is_hidden, is_instagram_eligible, is_published, link, message, message_tags, name, object_id, parent_id, permalink_url, picture, place, privacy, properties, shares, source, status_type, story, story_tags, targeting, to, type, updated_time, with_tags";
 
     @Override
 
@@ -81,38 +81,41 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
         ((FriendzApp)getActivity().getApplication()).getComponent().inject(this);
-        System.out.println("#####TOKEN##### "+AccessToken.getCurrentAccessToken().getToken());
-        new GraphRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/me/feed?fields="+queries,
-                null,
-                HttpMethod.GET,
-                new GraphRequest.Callback() {
-                    public void onCompleted(final GraphResponse response) {
-                        String data=new String();
-                        try {
-                            JSONObject jsonObject=new JSONObject(response.getRawResponse());
-                            data=jsonObject.getJSONArray("data").toString();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        final String finalData = data;
-                        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-
-                                realm.createOrUpdateAllFromJson(PostsDataItem.class, finalData);
-
+        if (AccessToken.getCurrentAccessToken()!=null) {
+            System.out.println("#####TOKEN##### "+AccessToken.getCurrentAccessToken().getToken());
+            new GraphRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/me/feed?fields="+queries,
+                    null,
+                    HttpMethod.GET,
+                    new GraphRequest.Callback() {
+                        public void onCompleted(final GraphResponse response) {
+                            String data=new String();
+                            try {
+                                JSONObject jsonObject=new JSONObject(response.getRawResponse());
+                                data=jsonObject.getJSONArray("data").toString();
+                                System.out.println(data);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        });
-                        RealmResults<PostsDataItem> dataItems= Realm.getDefaultInstance().where(PostsDataItem.class).findAll();
-//                        PostResponse postResponse=new Gson().fromJson(response.getRawResponse(),PostResponse.class);
-                        FeedAdapter adapter=new FeedAdapter(getActivity(),(dataItems));
-                        listFeeds.setAdapter(adapter);
-            /* handle the result */
+                            final String finalData = data;
+                            Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+
+                                    realm.createOrUpdateAllFromJson(PostsDataItem.class, finalData);
+
+                                }
+                            });
+                            RealmResults<PostsDataItem> dataItems= Realm.getDefaultInstance().where(PostsDataItem.class).findAll();
+    //                        PostResponse postResponse=new Gson().fromJson(response.getRawResponse(),PostResponse.class);
+                            FeedAdapter adapter=new FeedAdapter(getActivity(),(dataItems));
+                            listFeeds.setAdapter(adapter);
+                /* handle the result */
+                        }
                     }
-                }
-        ).executeAsync();
+            ).executeAsync();
+        }
 
 //        LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList(new String[]{"publish_actions, manage_notifications"}));
 //        Bundle bundle =new  Bundle();

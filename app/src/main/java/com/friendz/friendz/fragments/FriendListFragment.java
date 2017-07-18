@@ -18,7 +18,7 @@ import com.friendz.friendz.adapters.FriendsListAdapter;
 import com.friendz.friendz.model.FriendsResponse;
 import com.friendz.friendz.util.Constants;
 import com.google.gson.Gson;
-//import com.friendz.friendz.db.DataItem;
+//import com.friendz.friendz.db.InstaDataItem;
 import com.friendz.friendz.db.FriendsList;
 
 import butterknife.BindView;
@@ -70,7 +70,7 @@ public class FriendListFragment extends Fragment {
 
 
 
-//                        RealmResults<DataItem> friends= Realm.getDefaultInstance().where(DataItem.class).findAll();
+//                        RealmResults<InstaDataItem> friends= Realm.getDefaultInstance().where(InstaDataItem.class).findAll();
 //                        // FriendsResponse friendsResponse=new Gson().fromJson(response.getRawResponse(),FriendsResponse.class);
 //                        FriendsListAdapter adapter=new FriendsListAdapter(getActivity(),(friends));
 //                        listFriends.setAdapter(adapter);

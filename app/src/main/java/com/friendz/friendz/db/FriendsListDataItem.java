@@ -25,7 +25,7 @@ public class FriendsListDataItem extends RealmObject{
 	@Override
  	public String toString(){
 		return
-			"DataItem{" +
+			"InstaDataItem{" +
 			"name = '" + name + '\'' +
 			",id = '" + id + '\'' + 
 			"}";
