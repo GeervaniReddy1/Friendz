@@ -36,10 +36,7 @@ public class InstaFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_insta, container, false);
         unbinder = ButterKnife.bind(this, view);
-        if(SharedPrefUtils.getToken(getActivity())!=null &&!SharedPrefUtils.getToken(getActivity()).isEmpty())
-        getInstaData();
-        else
-            startActivity(new Intent(getActivity(), InstagramActivity.class));
+
         return view;
     }
 
@@ -61,6 +58,15 @@ public class InstaFragment extends Fragment {
                 System.out.println(t);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(SharedPrefUtils.getToken(getActivity())!=null &&!SharedPrefUtils.getToken(getActivity()).isEmpty())
+            getInstaData();
+        else
+            startActivity(new Intent(getActivity(), InstagramActivity.class));
     }
 
     @Override

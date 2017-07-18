@@ -7,4 +7,5 @@ package com.friendz.friendz.util;
 public class Constants {
     public static final String FB_ACCESS_TOKEN = "fbaccesstoken";
     public static final String FB_USER_ID = "fbuserid";
+    public static final String POST_ID = "postid";
 }

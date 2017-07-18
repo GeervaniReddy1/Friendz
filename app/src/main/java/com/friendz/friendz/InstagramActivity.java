@@ -59,14 +59,7 @@ public class InstagramActivity extends AppCompatActivity {
         if (requestCode == InstagramHelperConstants.INSTA_LOGIN && resultCode == RESULT_OK) {
             InstagramUser user = instagramHelper.getInstagramUser(this);
             System.out.println(SharedPrefUtils.getToken(this));
-            try {
-                new SimpleDateFormat().parse("");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            System.out.println(new Gson().toJson(user));
-
-
+            finish();
 //            Picasso.with(this).load(user.getData().getProfilePicture()).into(userPhoto);
 //            userTextInfo.setText(user.getData().getUsername() + "\n"
 //                    + user.getData().getFullName() + "\n"

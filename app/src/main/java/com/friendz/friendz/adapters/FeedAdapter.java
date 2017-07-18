@@ -98,6 +98,10 @@ public class FeedAdapter extends BaseAdapter {
         holder.txtDesc.setText(item.getName());
         if (item.getLikes() != null)
             holder.txtLike.setText(item.getLikes().getData().size() + " likes");
+        if(item.getComments()!=null){
+            holder.txtComments.setText(item.getComments().getData().size()+" Comments");
+
+        }
         return convertView;
     }
 

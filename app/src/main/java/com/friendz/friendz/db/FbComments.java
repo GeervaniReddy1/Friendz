@@ -7,15 +7,14 @@ import io.realm.RealmObject;
  * Created by dineshkumarbalasubramanian on 18/07/17.
  */
 
-public class Likes extends RealmObject{
+public class FbComments extends RealmObject{
+private RealmList<FbCommentsData> data;
 
-    private RealmList<LikeData> data;
-
-    public RealmList<LikeData> getData() {
+    public RealmList<FbCommentsData> getData() {
         return data;
     }
 
-    public void setData(RealmList<LikeData> data) {
+    public void setData(RealmList<FbCommentsData> data) {
         this.data = data;
     }
 }

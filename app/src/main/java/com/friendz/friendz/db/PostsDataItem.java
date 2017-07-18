@@ -3,7 +3,6 @@ package com.friendz.friendz.db;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.RealmClass;
 
 public class PostsDataItem extends RealmObject {
     private String createdTime;
@@ -27,7 +26,8 @@ public class PostsDataItem extends RealmObject {
     @PrimaryKey
     private String id;
     private String permalinkUrl;
-    private Likes likes;
+    private FbLikes likes;
+    private FbComments comments;
     private String story;
 
     public void setCreatedTime(String createdTime) {
@@ -198,12 +198,20 @@ public class PostsDataItem extends RealmObject {
         this.source = source;
     }
 
-    public Likes getLikes() {
+    public FbLikes getLikes() {
         return likes;
     }
 
-    public void setLikes(Likes likes) {
+    public void setLikes(FbLikes likes) {
         this.likes = likes;
+    }
+
+    public FbComments getComments() {
+        return comments;
+    }
+
+    public void setComments(FbComments comments) {
+        this.comments = comments;
     }
 
     @Override

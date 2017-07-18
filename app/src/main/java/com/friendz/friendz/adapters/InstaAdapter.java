@@ -8,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.devbrackets.android.exomedia.ui.widget.VideoView;
 import com.friendz.friendz.R;
 import com.friendz.friendz.db.InstaDataItem;
-import com.friendz.friendz.db.PostsDataItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -18,13 +18,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.RealmResults;
 
 /**
  * Created by dineshkumarbalasubramanian on 12/06/17.
  */
 
 public class InstaAdapter extends BaseAdapter {
+
+
     enum type {
         link(), status, photo, video, offer
     }
@@ -68,11 +69,12 @@ public class InstaAdapter extends BaseAdapter {
 //        item.getType()
 //        switch (item.getType()) {
 //            case "photo":
-        if(item.getImages()!=null&&item.getImages().getThumbnail()!=null)
-                Picasso.with(mContext).load(item.getImages().getThumbnail().getUrl()).into(holder.imgFeed);
+        if (item.getImages() != null && item.getImages().getThumbnail() != null)
+            Picasso.with(mContext).load(item.getImages().getThumbnail().getUrl()).into(holder.imgFeed);
 //                break;
 //        }
-        holder.txtDesc.setText(item.getCaption().getText());
+        holder.videoView.setVisibility(View.GONE);
+                holder.txtDesc.setText(item.getCaption().getText());
         return convertView;
     }
 
@@ -85,7 +87,10 @@ public class InstaAdapter extends BaseAdapter {
         TextView txtShare;
         @BindView(R.id.txtDesc)
         TextView txtDesc;
-
+        @BindView(R.id.video_view)
+        VideoView videoView;
+        @BindView(R.id.txtComments)
+        TextView txtComments;
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
