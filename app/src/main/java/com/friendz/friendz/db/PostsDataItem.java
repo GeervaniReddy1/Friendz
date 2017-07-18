@@ -17,6 +17,7 @@ public class PostsDataItem extends RealmObject {
     private PostsPrivacy privacy;
     private String type;
     private String picture;
+    private String source;
     private PostsShares shares;
     private String instagramEligibility;
     private RealmList<PostsStoryTagsItem> storyTags;
@@ -26,6 +27,7 @@ public class PostsDataItem extends RealmObject {
     @PrimaryKey
     private String id;
     private String permalinkUrl;
+    private Likes likes;
     private String story;
 
     public void setCreatedTime(String createdTime) {
@@ -186,6 +188,22 @@ public class PostsDataItem extends RealmObject {
 
     public String getStory() {
         return story;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public Likes getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Likes likes) {
+        this.likes = likes;
     }
 
     @Override
