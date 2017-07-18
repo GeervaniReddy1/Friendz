@@ -38,10 +38,11 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_gravity="left"
+        android:layout_margin="10dp"
         android:text="UserName:"
-        android:textSize="40px"/>
+        android:textSize="40px" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
