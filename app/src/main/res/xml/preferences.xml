@@ -1,22 +1,26 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="Settings"
-        android:key="pref_key_storage_settings">
-        <CheckBoxPreference
-            android:key="pref_key_auto_delete"
-
-            android:title="switch accounts"
+        android:key="key">
+        <EditTextPreference
+            android:key="ProfileKey"
+            android:title="Profile"
             android:defaultValue="false"/>
         <EditTextPreference
-            android:key="pref_key_sms_delete_limit"
-            android:dependency="pref_key_auto_delete"
-
-            android:title="something" />
+            android:key="FriendsListkey"
+            android:title="FriendsList" />
+        <CheckBoxPreference
+            android:key="sortkey"
+            android:title="Sort options"
+            android:summary="Default"/>
+        <EditTextPreference
+            android:key="AlarmKey"
+            android:title="Alarm Settings"  />
+        <CheckBoxPreference
+            android:title="something"/>
         <SwitchPreference
-            android:key="pref_key_mms_delete_limit"
-            android:dependency="pref_key_auto_delete"
+            android:title="something"/>
 
-            android:title="nothing"  />
 
     </PreferenceCategory>
 
