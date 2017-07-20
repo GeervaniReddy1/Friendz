@@ -24,6 +24,8 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.friendz.friendz.FriendzApp;
+import com.friendz.friendz.HomeActivity;
+import com.friendz.friendz.LoginActivity;
 import com.friendz.friendz.R;
 import com.friendz.friendz.adapters.FeedAdapter;
 import com.friendz.friendz.api.ApiHelper;
@@ -35,6 +37,7 @@ import com.friendz.friendz.request.FbMessageReq;
 import com.friendz.friendz.request.Message;
 import com.friendz.friendz.request.Recipient;
 import com.friendz.friendz.service.FacebookSyncService;
+import com.friendz.friendz.util.Constants;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -66,7 +69,7 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.listFeeds)
     ListView listFeeds;
     Unbinder unbinder;
-
+    HomeActivity mHomeActivity;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -78,9 +81,14 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+//        mHomeActivity= (HomeActivity) getActivity();
+//        ((FriendzApp)getActivity().getApplication()).getComponent().inject(this);
+//        if(mPref.getStringSet(Constants.FRIENDS_LIST,null)==null){
+//            mHomeActivity.getNavigation().setSelectedItemId(R.id.navigation_dashboard);
+//        }
+//        mHomeActivity.
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
-        ((FriendzApp)getActivity().getApplication()).getComponent().inject(this);
         if (AccessToken.getCurrentAccessToken()!=null) {
             System.out.println("#####TOKEN##### "+AccessToken.getCurrentAccessToken().getToken());
             new GraphRequest(
@@ -90,31 +98,37 @@ public class HomeFragment extends Fragment {
                     HttpMethod.GET,
                     new GraphRequest.Callback() {
                         public void onCompleted(final GraphResponse response) {
-                            String data=new String();
-                            try {
-                                JSONObject jsonObject=new JSONObject(response.getRawResponse());
-                                data=jsonObject.getJSONArray("data").toString();
-                                System.out.println(data);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            final String finalData = data;
-                            Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-
-                                    realm.createOrUpdateAllFromJson(PostsDataItem.class, finalData);
-
+                            if (isAdded()) {
+                                String data=new String();
+                                try {
+                                    JSONObject jsonObject=new JSONObject(response.getRawResponse());
+                                    data=jsonObject.getJSONArray("data").toString();
+                                    System.out.println(data);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                            });
-                            RealmResults<PostsDataItem> dataItems= Realm.getDefaultInstance().where(PostsDataItem.class).findAll();
-    //                        PostResponse postResponse=new Gson().fromJson(response.getRawResponse(),PostResponse.class);
-                            FeedAdapter adapter=new FeedAdapter(getActivity(),(dataItems));
-                            listFeeds.setAdapter(adapter);
+                                final String finalData = data;
+                                Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+
+                                        realm.createOrUpdateAllFromJson(PostsDataItem.class, finalData);
+
+                                    }
+                                });
+                                RealmResults<PostsDataItem> dataItems= Realm.getDefaultInstance().where(PostsDataItem.class).findAll();
+                                //                        PostResponse postResponse=new Gson().fromJson(response.getRawResponse(),PostResponse.class);
+                                FeedAdapter adapter=new FeedAdapter(getActivity(),(dataItems));
+                                listFeeds.setAdapter(adapter);
+                            }
                 /* handle the result */
                         }
                     }
             ).executeAsync();
+        }else{
+            Intent intent=new Intent(getActivity(), LoginActivity.class);
+            intent.putExtra(Constants.LOGIN_TO_FB,true);
+            startActivity(intent);
         }
 
 //        LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList(new String[]{"publish_actions, manage_notifications"}));

@@ -73,7 +73,7 @@ public class InstaAdapter extends BaseAdapter {
             Picasso.with(mContext).load(item.getImages().getThumbnail().getUrl()).into(holder.imgFeed);
 //                break;
 //        }
-        holder.videoView.setVisibility(View.GONE);
+//        holder.videoView.setVisibility(View.GONE);
                 holder.txtDesc.setText(item.getCaption().getText());
         return convertView;
     }
@@ -87,8 +87,8 @@ public class InstaAdapter extends BaseAdapter {
         TextView txtShare;
         @BindView(R.id.txtDesc)
         TextView txtDesc;
-        @BindView(R.id.video_view)
-        VideoView videoView;
+//        @BindView(R.id.video_view)
+//        VideoView videoView;
         @BindView(R.id.txtComments)
         TextView txtComments;
         ViewHolder(View view) {

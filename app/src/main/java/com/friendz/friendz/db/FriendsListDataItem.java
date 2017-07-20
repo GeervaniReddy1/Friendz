@@ -1,10 +1,13 @@
 package com.friendz.friendz.db;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class FriendsListDataItem extends RealmObject{
 	private String name;
+	@PrimaryKey
 	private String id;
+	private FriendsPicture picture;
 
 	public void setName(String name){
 		this.name = name;
@@ -20,6 +23,14 @@ public class FriendsListDataItem extends RealmObject{
 
 	public String getId(){
 		return id;
+	}
+
+	public FriendsPicture getPicture() {
+		return picture;
+	}
+
+	public void setPicture(FriendsPicture picture) {
+		this.picture = picture;
 	}
 
 	@Override

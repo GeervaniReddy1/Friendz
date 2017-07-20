@@ -7,7 +7,9 @@ import android.widget.FrameLayout;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
+import com.friendz.friendz.fragments.LoginFragment;
 import com.friendz.friendz.fragments.SplashFragment;
+import com.friendz.friendz.util.Constants;
 
 public class LoginActivity extends AppCompatActivity {
     FrameLayout container;
@@ -18,13 +20,24 @@ public class LoginActivity extends AppCompatActivity {
 
     CallbackManager callbackManager;
 
+    public boolean isLoginToFb() {
+        return isLoginToFb;
+    }
+
+    boolean isLoginToFb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        if (getIntent().getExtras() != null)
+            isLoginToFb = getIntent().getExtras().getBoolean(Constants.LOGIN_TO_FB, false);
         container = (FrameLayout) findViewById(R.id.container);
         callbackManager = CallbackManager.Factory.create();
-        getSupportFragmentManager().beginTransaction().add(R.id.container, new SplashFragment()).commit();
+        if (!isLoginToFb())
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new SplashFragment()).commit();
+        else
+            getSupportFragmentManager().beginTransaction().add(R.id.container, new LoginFragment()).commit();
     }
 
     @Override

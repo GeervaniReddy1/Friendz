@@ -1,21 +1,20 @@
 package com.friendz.friendz.adapters;
 
 import android.content.Context;
-import android.media.MediaPlayer;
-import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.devbrackets.android.exomedia.listener.OnPreparedListener;
-import com.devbrackets.android.exomedia.ui.widget.VideoView;
+import com.friendz.friendz.HomeActivity;
 import com.friendz.friendz.R;
 import com.friendz.friendz.db.PostsDataItem;
+import com.friendz.friendz.fragments.dialogs.CommentDialogFragment;
+import com.friendz.friendz.fragments.dialogs.VideoDialogFragment;
+import com.friendz.friendz.util.Constants;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.RealmResults;
 
 /**
@@ -30,6 +30,10 @@ import io.realm.RealmResults;
  */
 
 public class FeedAdapter extends BaseAdapter {
+
+
+
+
 
 
     enum type {
@@ -71,38 +75,71 @@ public class FeedAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        PostsDataItem item = dataItems.get(position);
+        final PostsDataItem item = dataItems.get(position);
+
+        holder.imgFeed.setVisibility(View.GONE);
 //        item.getType()
+        holder.imgFeed.setTag(item.getId());
+        holder.imgFeed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playVideo(v);
+
+            }
+        });
+holder.imgPlay.setVisibility(View.GONE);
         switch (item.getType()) {
+            case "video":
+                holder.imgPlay.setVisibility(View.VISIBLE);
             case "photo":
+            case "link":
                 Picasso.with(mContext).load(item.getPicture()).into(holder.imgFeed);
-                holder.videoView.setVisibility(View.GONE);
                 holder.imgFeed.setVisibility(View.VISIBLE);
                 break;
-            case "video":
-                holder.imgFeed.setVisibility(View.GONE);
-                holder.videoView.setVisibility(View.VISIBLE);
-                final ViewHolder finalHolder = holder;
-                holder.videoView.setOnPreparedListener(new OnPreparedListener() {
-                    @Override
-                    public void onPrepared() {
-                        finalHolder.videoView.start();
-                    }
-                });
-
-                //For now we just picked an arbitrary item to play
-                holder.videoView.setVideoURI(Uri.parse(item.getSource()));
 
 
         }
         holder.txtDesc.setText(item.getName());
+        holder.txtLike.setTag(item.getId());
         if (item.getLikes() != null)
             holder.txtLike.setText(item.getLikes().getData().size() + " likes");
-        if(item.getComments()!=null){
-            holder.txtComments.setText(item.getComments().getData().size()+" Comments");
+        holder.txtComments.setTag(item.getId());
+        if (item.getComments() != null) {
+            holder.txtComments.setText(item.getComments().getData().size() + " Comments");
 
         }
+        holder.txtComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCommentsDialog(v);
+            }
+        });
+        holder.txtLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Realm.getDefaultInstance().where(PostsDataItem.class).
+//                if(item.getLikes().getData())
+                showCommentsDialog(v);
+            }
+        });
         return convertView;
+    }
+
+    private void playVideo(View v) {
+        VideoDialogFragment videoDialogFragment = new VideoDialogFragment();
+        Bundle b = new Bundle();
+        b.putString(Constants.POST_ID, (String) v.getTag());
+        videoDialogFragment.setArguments(b);
+        videoDialogFragment.show(((HomeActivity) mContext).getSupportFragmentManager(), "Video");
+    }
+
+
+    private void showCommentsDialog(View v) {
+        CommentDialogFragment commentDialogFragment = new CommentDialogFragment();
+        Bundle b = new Bundle();
+        b.putString(Constants.POST_ID, (String) v.getTag());
+        commentDialogFragment.setArguments(b);
+        commentDialogFragment.show(((HomeActivity) mContext).getSupportFragmentManager(), "Comments");
     }
 
     static class ViewHolder {
@@ -114,10 +151,11 @@ public class FeedAdapter extends BaseAdapter {
         TextView txtShare;
         @BindView(R.id.txtDesc)
         TextView txtDesc;
-        @BindView(R.id.video_view)
-        VideoView videoView;
+        @BindView(R.id.imgPlay)
+        ImageView imgPlay;
         @BindView(R.id.txtComments)
         TextView txtComments;
+
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }

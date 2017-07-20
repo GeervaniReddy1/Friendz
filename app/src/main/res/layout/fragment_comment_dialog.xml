@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:padding="5dp"
     android:layout_height="match_parent"
-    android:orientation=""
     tools:context="com.friendz.friendz.fragments.dialogs.CommentDialogFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -10,10 +10,15 @@
         android:id="@+id/txtName"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:textStyle="bold"
         tools:text="@string/hello_blank_fragment" />
     <TextView
         android:id="@+id/txtMessage"
         android:layout_weight="1"
+        android:lines="2"
+        android:inputType="textMultiLine"
+        android:maxLines="5"
+        android:textColor="#000"
         android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

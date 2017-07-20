@@ -1,6 +1,7 @@
 package com.friendz.friendz.db;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class EventsDataItem extends RealmObject{
 	private String startTime;
@@ -9,6 +10,7 @@ public class EventsDataItem extends RealmObject{
 	private String name;
 	private String description;
 	private EventsPlace place;
+	@PrimaryKey
 	private String id;
 
 	public void setStartTime(String startTime){

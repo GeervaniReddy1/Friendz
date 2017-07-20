@@ -15,11 +15,18 @@ import com.facebook.HttpMethod;
 import com.friendz.friendz.FriendzApp;
 import com.friendz.friendz.R;
 import com.friendz.friendz.adapters.FriendsListAdapter;
+import com.friendz.friendz.db.FriendsListDataItem;
+import com.friendz.friendz.model.DataItem;
 import com.friendz.friendz.model.FriendsResponse;
 import com.friendz.friendz.util.Constants;
 import com.google.gson.Gson;
 //import com.friendz.friendz.db.InstaDataItem;
 import com.friendz.friendz.db.FriendsList;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +58,7 @@ public class FriendListFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
-                "me/friends?fields=id,name&limit=100",
+                "me/friends?fields=id,name,picture&limit=100",
                 null,
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
@@ -59,21 +66,27 @@ public class FriendListFragment extends Fragment {
             /* handle the result */
 
             System.out.println(response);
+                        try {
+                            JSONObject jsonObject=new JSONObject(response.getRawResponse());
+                            final JSONArray friendsData=jsonObject.getJSONArray("data");
+                            Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    realm.createOrUpdateAllFromJson(FriendsListDataItem.class,friendsData.toString());
 
-////                        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
-////                            @Override
-////                            public void execute(Realm realm) {
-////                                realm.createObjectFromJson(FriendsList.class,response.getRawResponse());
-//
-//                            }
-//                        });
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
 
 
-//                        RealmResults<InstaDataItem> friends= Realm.getDefaultInstance().where(InstaDataItem.class).findAll();
-//                        // FriendsResponse friendsResponse=new Gson().fromJson(response.getRawResponse(),FriendsResponse.class);
-//                        FriendsListAdapter adapter=new FriendsListAdapter(getActivity(),(friends));
-//                        listFriends.setAdapter(adapter);
+
+                        RealmResults<FriendsListDataItem> friends= Realm.getDefaultInstance().where(FriendsListDataItem.class).findAll();
+                        // FriendsResponse friendsResponse=new Gson().fromJson(response.getRawResponse(),FriendsResponse.class);
+                        FriendsListAdapter adapter=new FriendsListAdapter(getActivity(),(friends));
+                        listFriends.setAdapter(adapter);
 
                     }
                 }

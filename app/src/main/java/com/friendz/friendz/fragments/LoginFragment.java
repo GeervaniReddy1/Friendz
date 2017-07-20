@@ -14,14 +14,13 @@ import android.view.ViewGroup;
 
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.friendz.friendz.HomeActivity;
-import com.friendz.friendz.util.Constants;
 import com.friendz.friendz.FriendzApp;
+import com.friendz.friendz.HomeActivity;
 import com.friendz.friendz.LoginActivity;
 import com.friendz.friendz.R;
+import com.friendz.friendz.util.Constants;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -50,9 +49,12 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     LoginButton loginButton;
     Unbinder unbinder;
     SharedPreferences.Editor mEditor;
+    @BindView(R.id.sign_in_button)
+    SignInButton signInButton;
     private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
     private ProgressDialog mProgressDialog;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -68,7 +70,13 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         loginButton.setFragment(this);
         mEditor = FriendzApp.getInstance().getmPrefs().edit();
         initialiseFbLogin();
-        initialiseGoogleLogin(view);
+        if (!mLoginActivity.isLoginToFb()) {
+            signInButton.setVisibility(View.VISIBLE);
+            initialiseGoogleLogin(view);
+
+        }else {
+            signInButton.setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -104,7 +112,6 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                 .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        SignInButton signInButton = (SignInButton) view.findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,41 +133,45 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        }else
-        mLoginActivity.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+        } else
+            mLoginActivity.getCallbackManager().onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d(LoginFragment.class.getCanonicalName(), "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
+        if (!mLoginActivity.isLoginToFb()) {
+            OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+            if (opr.isDone()) {
+                // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+                // and the GoogleSignInResult will be available instantly.
+                Log.d(LoginFragment.class.getCanonicalName(), "Got cached sign-in");
+                GoogleSignInResult result = opr.get();
+                handleSignInResult(result);
+            } else {
+                // If the user has not previously signed in on this device or the sign-in has expired,
+                // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+                // single sign-on will occur in this branch.
+                showProgressDialog();
+                opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                    @Override
+                    public void onResult(GoogleSignInResult googleSignInResult) {
+                        hideProgressDialog();
+                        handleSignInResult(googleSignInResult);
+                    }
+                });
+            }
         }
     }
+
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(getClass().getCanonicalName(), "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             System.out.println(acct.getEmail());
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,new HomeFragment()).commit();
+            startActivity(new Intent(getActivity(), HomeActivity.class));
+            getActivity().finish();
         }
     }
     // [END handleSignInResult]
@@ -170,6 +181,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
     private void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity());
@@ -185,6 +197,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
             mProgressDialog.hide();
         }
     }
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
