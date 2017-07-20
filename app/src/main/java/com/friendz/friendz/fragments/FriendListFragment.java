@@ -58,7 +58,7 @@ public class FriendListFragment extends Fragment {
                     public void onCompleted(final GraphResponse response) {
             /* handle the result */
 
-            System.out.println(response);
+                        System.out.println(response);
 
 ////                        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
 ////                            @Override

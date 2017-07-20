@@ -1,9 +1,11 @@
 package com.friendz.friendz.db;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class FriendsListDataItem extends RealmObject{
 	private String name;
+	@PrimaryKey
 	private String id;
 
 	public void setName(String name){

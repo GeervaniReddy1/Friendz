@@ -127,7 +127,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }else
-        mLoginActivity.getCallbackManager().onActivityResult(requestCode, resultCode, data);
+            mLoginActivity.getCallbackManager().onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

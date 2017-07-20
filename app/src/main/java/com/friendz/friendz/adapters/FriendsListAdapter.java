@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.friendz.friendz.R;
+import com.friendz.friendz.db.FriendsListDataItem;
 import com.friendz.friendz.model.DataItem;
 import com.squareup.picasso.Picasso;
 
@@ -18,6 +19,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.RealmResults;
+
 
 /**
  * Created by dineshkumarbalasubramanian on 14/06/17.
@@ -25,10 +28,10 @@ import butterknife.ButterKnife;
 
 public class FriendsListAdapter extends BaseAdapter {
     Context mContext;
-    List<DataItem> friends = new ArrayList<>();
+    List<FriendsListDataItem> friends = new ArrayList<>();
     LayoutInflater inflater;
 
-    public FriendsListAdapter(Context mContext, List<DataItem> friends) {
+    public FriendsListAdapter(Context mContext, RealmResults<FriendsListDataItem> friends) {
         this.mContext = mContext;
         this.friends = friends;
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -59,8 +62,8 @@ public class FriendsListAdapter extends BaseAdapter {
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        DataItem item=friends.get(position);
-        Picasso.with(mContext).load(item.getPicture().getData().getUrl()).into(holder.imgFriends);
+        FriendsListDataItem item=friends.get(position);
+       // Picasso.with(mContext).load(item.getPicture().getData().getUrl()).into(holder.imgFriends);
         holder.txtFriendsName.setText(item.getName());
         return convertView;
     }
