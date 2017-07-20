@@ -53,7 +53,7 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".InstagramActivity"></activity>
+        <activity android:name=".InstagramActivity" />
     </application>
 
 </manifest>
