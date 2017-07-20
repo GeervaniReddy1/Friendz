@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class ApiHelper {
-private static final String BASE_URL="https://api.instagram.com/v1/";
+    private static final String BASE_URL="https://api.instagram.com/v1/";
 
     public Call<InstagramMediaResponse> getInstagramData(String accessToken){
         return getRetrofit().create(FriendsApi.class).getInstagramData(accessToken);
