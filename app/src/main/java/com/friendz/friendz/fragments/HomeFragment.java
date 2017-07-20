@@ -104,7 +104,7 @@ public class HomeFragment extends Fragment {
                                     JSONObject jsonObject=new JSONObject(response.getRawResponse());
                                     data=jsonObject.getJSONArray("data").toString();
                                     System.out.println(data);
-                                } catch (JSONException e) {
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                                 final String finalData = data;
