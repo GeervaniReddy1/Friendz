@@ -12,6 +12,7 @@ import com.friendz.friendz.fragments.EventsFragment;
 import com.friendz.friendz.fragments.FriendListFragment;
 import com.friendz.friendz.fragments.HomeFragment;
 import com.friendz.friendz.fragments.InstaFragment;
+import com.friendz.friendz.fragments.SettingsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_insta:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content, new InstaFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content, new SettingsFragment()).commit();
                     return true;
             }
             return false;

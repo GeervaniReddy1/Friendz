@@ -17,7 +17,7 @@
             android:key="AlarmKey"
             android:title="Alarm Settings"  />
         <CheckBoxPreference
-            android:title="something"/>
+            android:title="somethin‰g"/>
         <SwitchPreference
             android:title="something"/>
 
