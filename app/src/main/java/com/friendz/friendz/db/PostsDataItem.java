@@ -12,6 +12,7 @@ public class PostsDataItem extends RealmObject {
     private String icon;
     private boolean isHidden;
     private String link;
+    private String message;
     private String caption;
     private PostsPrivacy privacy;
     private String type;
@@ -212,6 +213,14 @@ public class PostsDataItem extends RealmObject {
 
     public void setComments(FbComments comments) {
         this.comments = comments;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override

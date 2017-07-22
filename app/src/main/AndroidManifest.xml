@@ -54,6 +54,10 @@
             android:exported="true" />
 
         <activity android:name=".InstagramActivity" />
+
+        <service
+            android:name=".FetchFeedFromFbService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

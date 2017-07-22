@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_insta:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content, new SettingsFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content, new InstaFragment()).commit();
                     return true;
             }
             return false;

@@ -23,6 +23,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
+import com.friendz.friendz.FetchFeedFromFbService;
 import com.friendz.friendz.FriendzApp;
 import com.friendz.friendz.HomeActivity;
 import com.friendz.friendz.LoginActivity;
@@ -81,11 +82,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        mHomeActivity= (HomeActivity) getActivity();
-//        ((FriendzApp)getActivity().getApplication()).getComponent().inject(this);
-//        if(mPref.getStringSet(Constants.FRIENDS_LIST,null)==null){
-//            mHomeActivity.getNavigation().setSelectedItemId(R.id.navigation_dashboard);
-//        }
+        mHomeActivity= (HomeActivity) getActivity();
+        ((FriendzApp)getActivity().getApplication()).getComponent().inject(this);
+        if(mPref.getStringSet(Constants.FRIENDS_LIST,null)==null){
+            mHomeActivity.getNavigation().setSelectedItemId(R.id.navigation_dashboard);
+        }
 //        mHomeActivity.
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
@@ -130,6 +131,7 @@ public class HomeFragment extends Fragment {
             intent.putExtra(Constants.LOGIN_TO_FB,true);
             startActivity(intent);
         }
+        getActivity().startService(new Intent(getActivity(),FetchFeedFromFbService.class));
 
 //        LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList(new String[]{"publish_actions, manage_notifications"}));
 //        Bundle bundle =new  Bundle();

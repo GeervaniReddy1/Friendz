@@ -93,8 +93,13 @@ holder.imgPlay.setVisibility(View.GONE);
                 holder.imgPlay.setVisibility(View.VISIBLE);
             case "photo":
             case "link":
+            case "offer":
                 Picasso.with(mContext).load(item.getPicture()).into(holder.imgFeed);
                 holder.imgFeed.setVisibility(View.VISIBLE);
+                break;
+            case "status":
+                holder.imgFeed.setVisibility(View.VISIBLE);
+                holder.txtDesc.setText(item.getMessage());
                 break;
 
 

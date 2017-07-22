@@ -1,8 +1,10 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/tools">
     <string name="app_name">Friendz</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">6BAxuChhAqgSBwhMCdONPyrE5</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">g1gxwLpMQ2L5ocvoVFo0i4ZydvbJ1xOkvspfjimdvsnFVi9zsU</string>
     <string name="facebook_app_id">271457579986395</string>
     <string name="fb_login_protocol_scheme">fb271457579986395</string>
     <array name="facebook_permissions">

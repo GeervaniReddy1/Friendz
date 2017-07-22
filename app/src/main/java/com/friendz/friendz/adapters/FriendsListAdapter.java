@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 /**
  * Created by dineshkumarbalasubramanian on 14/06/17.
@@ -60,9 +62,24 @@ public class FriendsListAdapter extends BaseAdapter {
         }else{
             holder= (ViewHolder) convertView.getTag();
         }
-        FriendsListDataItem item=friends.get(position);
+        final FriendsListDataItem item=friends.get(position);
         Picasso.with(mContext).load(item.getPicture().getData().getUrl()).into(holder.imgFriends);
         holder.txtFriendsName.setText(item.getName());
+        holder.chkFriends.setTag(item.getId());
+        holder.chkFriends.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+             Realm realm=Realm.getDefaultInstance();
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm .where(FriendsListDataItem.class).equalTo("id", (String) buttonView.getTag()).findFirst().setCloseFriend(isChecked);
+
+                    }
+                });
+
+            }
+        });
         return convertView;
     }
 

@@ -8,6 +8,15 @@ public class FriendsListDataItem extends RealmObject{
 	@PrimaryKey
 	private String id;
 	private FriendsPicture picture;
+	private boolean isCloseFriend;
+
+	public boolean isCloseFriend() {
+		return isCloseFriend;
+	}
+
+	public void setCloseFriend(boolean closeFriend) {
+		isCloseFriend = closeFriend;
+	}
 
 	public void setName(String name){
 		this.name = name;

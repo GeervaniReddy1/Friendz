@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.friendz.friendz.app.AppComponent;
 import com.friendz.friendz.app.AppModule;
 import com.friendz.friendz.app.DaggerAppComponent;
+import com.twitter.sdk.android.core.Twitter;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -24,6 +25,7 @@ public class FriendzApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        Twitter.initialize(this);
         mPrefs = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().schemaVersion(1).build();
