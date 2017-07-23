@@ -37,10 +37,7 @@ public class ProfileFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.profileimage)
     ImageView profileimage;
-    @BindView(R.id.editimage)
-    ImageView editimage;
-    @BindView(R.id.navimage)
-    ImageView navimage;
+
     @BindView(R.id.Firstname)
     TextView Firstname;
     @BindView(R.id.inputFirstname)
