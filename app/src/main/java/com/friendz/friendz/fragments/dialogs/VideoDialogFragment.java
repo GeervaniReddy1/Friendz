@@ -56,14 +56,19 @@ public class VideoDialogFragment extends DialogFragment {
         unbinder = ButterKnife.bind(this, view);
         postId = getArguments().getString(Constants.POST_ID);
         PostsDataItem item = Realm.getDefaultInstance().where(PostsDataItem.class).equalTo("id", postId).findFirst();
-        videoView.setVideoURI(Uri.parse(item.getSource()));
-        videoView.setOnPreparedListener(new OnPreparedListener() {
-            @Override
-            public void onPrepared() {
-                    videoView.start();
-            }
 
-        });
+        if (isAdded()) {
+            if(item.getSource()!=null) {
+                videoView.setVideoURI(Uri.parse(item.getSource()));
+                videoView.setOnPreparedListener(new OnPreparedListener() {
+                    @Override
+                    public void onPrepared() {
+                        videoView.start();
+                    }
+
+                });
+            }
+        }
         return view;
     }
 

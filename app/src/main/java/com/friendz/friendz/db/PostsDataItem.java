@@ -1,12 +1,14 @@
 package com.friendz.friendz.db;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class PostsDataItem extends RealmObject {
     private String createdTime;
-    private String updatedTime;
+    private Date updated_time;
     private boolean isPublished;
     private String statusType;
     private String icon;
@@ -39,12 +41,12 @@ public class PostsDataItem extends RealmObject {
         return createdTime;
     }
 
-    public void setUpdatedTime(String updatedTime) {
-        this.updatedTime = updatedTime;
+    public void setUpdatedTime(Date updatedTime) {
+        this.updated_time = updatedTime;
     }
 
-    public String getUpdatedTime() {
-        return updatedTime;
+    public Date getUpdatedTime() {
+        return updated_time;
     }
 
     public void setIsPublished(boolean isPublished) {
@@ -228,7 +230,7 @@ public class PostsDataItem extends RealmObject {
         return
                 "PostsDataItem{" +
                         "created_time = '" + createdTime + '\'' +
-                        ",updated_time = '" + updatedTime + '\'' +
+                        ",updated_time = '" + updated_time + '\'' +
                         ",is_published = '" + isPublished + '\'' +
                         ",status_type = '" + statusType + '\'' +
                         ",icon = '" + icon + '\'' +

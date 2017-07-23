@@ -1,6 +1,7 @@
 package com.friendz.friendz.fragments;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.friendz.friendz.FriendzApp;
+import com.friendz.friendz.HomeActivity;
 import com.friendz.friendz.R;
 import com.friendz.friendz.adapters.FriendsListAdapter;
 import com.friendz.friendz.db.FriendsListDataItem;
@@ -35,7 +37,6 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import butterknife.Unbinder;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 //import com.friendz.friendz.db.InstaDataItem;
@@ -53,7 +54,7 @@ public class FriendListFragment extends Fragment {
     Button btnSaveFrnds;
     @Inject
     SharedPreferences pref;
-
+HomeActivity homeActivity;
     public FriendListFragment() {
         // Required empty public constructor
     }
@@ -66,6 +67,8 @@ public class FriendListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_friend_list, container, false);
         unbinder = ButterKnife.bind(this, view);
         FriendzApp.getInstance().getComponent().inject(this);
+        homeActivity= (HomeActivity) getActivity();
+
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
                 "me/friends?fields=id,name,picture&limit=100",
@@ -120,5 +123,6 @@ public class FriendListFragment extends Fragment {
             friendsID.add(data.getId());
         }
         pref.edit().putStringSet(Constants.FRIENDS_LIST, friendsID).commit();
+        homeActivity.getNavigation().setSelectedItemId(R.id.navigation_home);
     }
 }

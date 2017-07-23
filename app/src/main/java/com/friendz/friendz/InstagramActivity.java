@@ -59,7 +59,7 @@ public class InstagramActivity extends AppCompatActivity {
         if (requestCode == InstagramHelperConstants.INSTA_LOGIN && resultCode == RESULT_OK) {
             InstagramUser user = instagramHelper.getInstagramUser(this);
             System.out.println(SharedPrefUtils.getToken(this));
-            finish();
+
 //            Picasso.with(this).load(user.getData().getProfilePicture()).into(userPhoto);
 //            userTextInfo.setText(user.getData().getUsername() + "\n"
 //                    + user.getData().getFullName() + "\n"
@@ -69,6 +69,7 @@ public class InstagramActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Login failed", Toast.LENGTH_LONG).show();
         }
+        finish();
     }
 
 
