@@ -17,7 +17,7 @@ import com.friendz.friendz.fragments.SettingsFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity{
 
 
     public BottomNavigationView getNavigation() {
@@ -35,15 +35,21 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.navigation_home:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
                     return true;
+
                 case R.id.navigation_dashboard:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new FriendListFragment()).commit();
                     return true;
+
                 case R.id.navigation_notifications:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new EventsFragment()).commit();
-
                     return true;
+
                 case R.id.navigation_insta:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new InstaFragment()).commit();
+                    return true;
+
+                case R.id.navigation_settings:
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content, new SettingsFragment()).commit();
                     return true;
             }
             return false;

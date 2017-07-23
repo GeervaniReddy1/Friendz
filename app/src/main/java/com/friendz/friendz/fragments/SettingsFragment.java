@@ -13,8 +13,8 @@ import com.friendz.friendz.R;
 import android.support.v7.preference.PreferenceFragmentCompat;
 public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
-    public void onCreatePreferences(Bundle bundle, String s) {
+    public void onCreatePreferences(Bundle bundle, String rootKey) {
         // Load the Preferences from the XML file
-        addPreferencesFromResource(R.xml.preferences);
+        setPreferencesFromResource(R.xml.preferences, rootKey);
     }
 }

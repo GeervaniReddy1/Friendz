@@ -2,10 +2,13 @@
     <PreferenceCategory
         android:title="Settings"
         android:key="key">
-        <EditTextPreference
+
+        <ListPreference
             android:key="ProfileKey"
             android:title="Profile"
-            android:defaultValue="false"/>
+            android:defaultValue="false"
+            android:persistent="true"/>
+
         <EditTextPreference
             android:key="FriendsListkey"
             android:title="FriendsList" />
@@ -17,10 +20,8 @@
             android:key="AlarmKey"
             android:title="Alarm Settings"  />
         <CheckBoxPreference
-            android:title="somethin‰g"/>
-        <SwitchPreference
+            android:key="something"
             android:title="something"/>
-
 
     </PreferenceCategory>
 
