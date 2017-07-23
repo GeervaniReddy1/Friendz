@@ -17,12 +17,14 @@ import com.friendz.friendz.fragments.dialogs.VideoDialogFragment;
 import com.friendz.friendz.util.Constants;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.realm.RealmResults;
 
 /**
@@ -30,10 +32,6 @@ import io.realm.RealmResults;
  */
 
 public class FeedAdapter extends BaseAdapter {
-
-
-
-
 
 
     enum type {
@@ -80,17 +78,20 @@ public class FeedAdapter extends BaseAdapter {
         holder.imgFeed.setVisibility(View.GONE);
 //        item.getType()
         holder.imgFeed.setTag(item.getId());
-        holder.imgFeed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playVideo(v);
 
-            }
-        });
-holder.imgPlay.setVisibility(View.GONE);
+        holder.imgPlay.setVisibility(View.GONE);
+        holder.txtDesc.setText(item.getCaption());
+        holder.txtFrom.setText(item.getFrom().getName());
         switch (item.getType()) {
             case "video":
                 holder.imgPlay.setVisibility(View.VISIBLE);
+                holder.imgFeed.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        playVideo(v);
+
+                    }
+                });
             case "photo":
             case "link":
             case "offer":
@@ -98,13 +99,22 @@ holder.imgPlay.setVisibility(View.GONE);
                 holder.imgFeed.setVisibility(View.VISIBLE);
                 break;
             case "status":
-                holder.imgFeed.setVisibility(View.VISIBLE);
-                holder.txtDesc.setText(item.getMessage());
+                holder.imgFeed.setVisibility(View.GONE);
+                if (item.getMessage() != null && !item.getMessage().trim().isEmpty())
+                    holder.txtDesc.setText(item.getMessage());
+                else {
+
+                    holder.txtDesc.setText(item.getStory());
+                    if(item.getPicture()!=null) {
+                        holder.imgFeed.setVisibility(View.VISIBLE);
+                        Picasso.with(mContext).load(item.getPicture()).into(holder.imgFeed);
+                    }
+
+                }
                 break;
 
 
         }
-        holder.txtDesc.setText(item.getName());
         holder.txtLike.setTag(item.getId());
         if (item.getLikes() != null)
             holder.txtLike.setText(item.getLikes().getData().size() + " likes");
@@ -113,6 +123,8 @@ holder.imgPlay.setVisibility(View.GONE);
             holder.txtComments.setText(item.getComments().getData().size() + " Comments");
 
         }
+        if (item.getUpdatedTime() != null)
+            holder.txtUpdatedTime.setText(new SimpleDateFormat("MMM dd YYYY hh:mm:ss").format(item.getUpdatedTime()));
         holder.txtComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,6 +172,10 @@ holder.imgPlay.setVisibility(View.GONE);
         ImageView imgPlay;
         @BindView(R.id.txtComments)
         TextView txtComments;
+        @BindView(R.id.txtFrom)
+        TextView txtFrom;
+        @BindView(R.id.updatedTime)
+        TextView txtUpdatedTime;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

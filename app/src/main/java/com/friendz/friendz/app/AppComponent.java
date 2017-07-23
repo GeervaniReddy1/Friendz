@@ -1,9 +1,9 @@
 package com.friendz.friendz.app;
 
-import com.friendz.friendz.FetchFeedFromFbService;
 import com.friendz.friendz.FriendzApp;
 import com.friendz.friendz.fragments.FriendListFragment;
 import com.friendz.friendz.fragments.HomeFragment;
+import com.friendz.friendz.fragments.SplashFragment;
 
 import javax.inject.Singleton;
 
@@ -22,5 +22,5 @@ public interface AppComponent {
 
     void inject(FriendListFragment friendListFragment);
 
-    void inject(FetchFeedFromFbService fetchFeedFromFbService);
+    void inject(SplashFragment splashFragment);
 }

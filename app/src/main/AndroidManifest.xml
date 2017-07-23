@@ -55,13 +55,15 @@
 
         <activity android:name=".InstagramActivity" />
 
-        <service
-            android:name=".FetchFeedFromFbService"
-            android:exported="false" />
+        <!--<service-->
+            <!--android:name=".FetchFeedFromFbService"-->
+            <!--android:exported="false" />-->
 
         <activity android:name=".ProfileActivity"
             android:parentActivityName=".HomeActivity"
             android:label="User Profile"></activity>
+
+        <activity android:name=".TwitterActivity"></activity>
     </application>
 
 </manifest>

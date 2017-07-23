@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.facebook.AccessToken;
@@ -14,6 +16,7 @@ import com.friendz.friendz.fragments.FriendListFragment;
 import com.friendz.friendz.fragments.HomeFragment;
 import com.friendz.friendz.fragments.InstaFragment;
 import com.friendz.friendz.fragments.SettingsFragment;
+import com.friendz.friendz.fragments.TwitterFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +42,9 @@ public class HomeActivity extends AppCompatActivity implements SettingsFragment.
                     return true;
 
                 case R.id.navigation_dashboard:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content, new FriendListFragment()).commit();
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.content, new FriendListFragment()).commit();
                     setTitle("Dashboard");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content, new TwitterFragment()).commit();
                     return true;
 
                 case R.id.navigation_notifications:
@@ -66,9 +70,21 @@ public class HomeActivity extends AppCompatActivity implements SettingsFragment.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK && requestCode == 1) {
+        if (resultCode == RESULT_OK && requestCode == 1) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content, new SettingsFragment()).commit();
         }
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.content,new FriendListFragment()).addToBackStack(getClass().getCanonicalName()).commit();
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -76,6 +92,7 @@ public class HomeActivity extends AppCompatActivity implements SettingsFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+
         if (AccessToken.getCurrentAccessToken()==null||AccessToken.getCurrentAccessToken().isExpired()) {
             AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
                 @Override

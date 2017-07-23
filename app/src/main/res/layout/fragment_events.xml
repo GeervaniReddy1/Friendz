@@ -10,5 +10,13 @@
         android:id="@+id/listEvents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
+    <TextView
+        android:id="@+id/txtNoEvents"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:text="No Events Available Right Now !!!"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent" />
 
 </FrameLayout>
