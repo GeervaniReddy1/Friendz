@@ -10,4 +10,5 @@ public class Constants {
     public static final String POST_ID = "postid";
     public static final String LOGIN_TO_FB = "login into fb";
     public static final String FRIENDS_LIST = "FriendsList";
+    public static final java.lang.String EVENT_ID = "eventID";
 }

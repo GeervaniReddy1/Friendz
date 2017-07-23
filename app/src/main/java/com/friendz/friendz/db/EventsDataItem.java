@@ -1,10 +1,12 @@
 package com.friendz.friendz.db;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class EventsDataItem extends RealmObject{
-	private String startTime;
+	private Date start_time;
 	private String rsvpStatus;
 	private String endTime;
 	private String name;
@@ -13,12 +15,12 @@ public class EventsDataItem extends RealmObject{
 	@PrimaryKey
 	private String id;
 
-	public void setStartTime(String startTime){
-		this.startTime = startTime;
+	public void setStartTime(Date startTime){
+		this.start_time = startTime;
 	}
 
-	public String getStartTime(){
-		return startTime;
+	public Date getStartTime(){
+		return start_time;
 	}
 
 	public void setRsvpStatus(String rsvpStatus){
@@ -73,7 +75,7 @@ public class EventsDataItem extends RealmObject{
  	public String toString(){
 		return 
 			"InstaDataItem{" +
-			"start_time = '" + startTime + '\'' + 
+			"start_time = '" + start_time + '\'' +
 			",rsvp_status = '" + rsvpStatus + '\'' + 
 			",end_time = '" + endTime + '\'' + 
 			",name = '" + name + '\'' + 
