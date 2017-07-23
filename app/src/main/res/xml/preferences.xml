@@ -3,11 +3,14 @@
         android:title="Settings"
         android:key="key">
 
-        <ListPreference
-            android:key="ProfileKey"
-            android:title="Profile"
-            android:defaultValue="false"
-            android:persistent="true"/>
+        <!--<Preference-->
+            <!--android:key="ProfileKey"-->
+            <!--android:title="Profile"-->
+            <!--android:defaultValue="false"/>-->
+
+        <Preference android:title="Profile"
+            android:key="OpenProfile"
+            android:summary="This is a cool button"/>
 
         <EditTextPreference
             android:key="FriendsListkey"

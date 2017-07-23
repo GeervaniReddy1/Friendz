@@ -1,4 +1,4 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,9 +8,9 @@
     android:layout_centerHorizontal="true" >
 
     <ImageView
-    android:layout_width="0dp"
-    android:layout_height="250dp"
-    android:adjustViewBounds="true"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:adjustViewBounds="true"
         android:src="@mipmap/ic_launcher_round"
         android:id="@+id/profileimage"
         android:layout_marginLeft="67dp"
@@ -20,6 +20,9 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
         app:layout_constraintVertical_bias="0.0" />
+
+
+
 
     <TextView
         android:id="@+id/Firstname"
@@ -46,11 +49,13 @@
         android:textSize="40px"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@+id/profileimage"
+        app:layout_constraintLeft_toRightOf="@+id/Firstname"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.726" />
+        app:layout_constraintHorizontal_bias="0.411"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/inputlastname" />
     <TextView
         android:id="@+id/Lastname"
         android:layout_width="wrap_content"
@@ -69,47 +74,29 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintHorizontal_bias="0.0" />
-        <EditText
-            android:id="@+id/inputlastname"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
+    <EditText
+        android:id="@+id/inputlastname"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
         android:layout_margin="10dp"
         android:layout_gravity="bottom"
         android:text="LastName:"
         android:textSize="40px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/Firstname"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.034"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.726"/>
+        app:layout_constraintHorizontal_bias="0.42"
+        app:layout_constraintLeft_toRightOf="@+id/Lastname"
+        app:layout_constraintBottom_toTopOf="@+id/inputLocation" />
 
-        <TextView
+    <TextView
         android:id="@+id/Location"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_margin="10dp"
-        android:layout_gravity="bottom"
-        android:text="Location:"
-        android:textSize="40px"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/Lastname"
-            android:layout_marginRight="8dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.029" />
-    <EditText
-        android:id="@+id/inputLocation"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
+        android:layout_width="61dp"
+        android:layout_height="38dp"
         android:layout_margin="10dp"
         android:layout_gravity="bottom"
         android:text="Location:"
@@ -118,15 +105,31 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/Lastname"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.726"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.042"
+        tools:layout_editor_absoluteY="375dp" />
+    <EditText
+        android:id="@+id/inputLocation"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="bottom"
+        android:text="Location:"
+        android:textSize="40px"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/Lastname"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0.085"
+        app:layout_constraintLeft_toRightOf="@+id/Location"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintHorizontal_bias="0.452"
+        app:layout_constraintBottom_toTopOf="@+id/inputUsername" />
 
 
-        <TextView
+    <TextView
         android:id="@+id/Username"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
@@ -134,16 +137,16 @@
         android:layout_margin="10dp"
         android:text="UserName:"
         android:textSize="40px"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="9dp"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/Location"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.07" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="9dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/Location"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="0.07" />
     <EditText
         android:id="@+id/inputUsername"
         android:layout_width="200dp"
@@ -158,10 +161,10 @@
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/Location"
+        app:layout_constraintVertical_bias="0.119"
+        app:layout_constraintLeft_toRightOf="@+id/Username"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintHorizontal_bias="0.73"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.417" />
 
 
 </android.support.constraint.ConstraintLayout>

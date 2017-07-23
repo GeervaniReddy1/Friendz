@@ -1,5 +1,6 @@
 package com.friendz.friendz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,7 +18,7 @@ import com.friendz.friendz.fragments.SettingsFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity{
+public class HomeActivity extends AppCompatActivity implements SettingsFragment.OnSettingsFragmentInteraction{
 
 
     public BottomNavigationView getNavigation() {
@@ -34,28 +35,41 @@ public class HomeActivity extends AppCompatActivity{
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
+                    setTitle(getString(R.string.app_name));
                     return true;
 
                 case R.id.navigation_dashboard:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new FriendListFragment()).commit();
+                    setTitle("Dashboard");
                     return true;
 
                 case R.id.navigation_notifications:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new EventsFragment()).commit();
+                    setTitle("Notifications");
                     return true;
 
                 case R.id.navigation_insta:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new InstaFragment()).commit();
+                    setTitle("Instagram");
                     return true;
 
                 case R.id.navigation_settings:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new SettingsFragment()).commit();
+                    setTitle("Settings");
                     return true;
             }
             return false;
         }
 
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == 1) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, new SettingsFragment()).commit();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +96,12 @@ public class HomeActivity extends AppCompatActivity{
             navigation.setSelectedItemId(R.id.navigation_home);
         }
     }
+
+    public void openProfile() {
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
 
 }
 
