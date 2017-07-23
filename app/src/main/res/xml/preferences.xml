@@ -22,9 +22,8 @@
         <EditTextPreference
             android:key="AlarmKey"
             android:title="Alarm Settings"  />
-        <CheckBoxPreference
-            android:key="something"
-            android:title="something"/>
+
+
 
     </PreferenceCategory>
 

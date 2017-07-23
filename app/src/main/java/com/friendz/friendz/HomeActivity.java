@@ -15,6 +15,7 @@ import com.friendz.friendz.fragments.EventsFragment;
 import com.friendz.friendz.fragments.FriendListFragment;
 import com.friendz.friendz.fragments.HomeFragment;
 import com.friendz.friendz.fragments.InstaFragment;
+import com.friendz.friendz.fragments.ProfileFragment;
 import com.friendz.friendz.fragments.SettingsFragment;
 import com.friendz.friendz.fragments.TwitterFragment;
 
