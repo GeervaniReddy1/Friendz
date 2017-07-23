@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.facebook.AccessToken;
@@ -13,6 +15,7 @@ import com.friendz.friendz.fragments.FriendListFragment;
 import com.friendz.friendz.fragments.HomeFragment;
 import com.friendz.friendz.fragments.InstaFragment;
 import com.friendz.friendz.fragments.SettingsFragment;
+import com.friendz.friendz.fragments.TwitterFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new HomeFragment()).commit();
                     return true;
                 case R.id.navigation_dashboard:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content, new FriendListFragment()).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content, new TwitterFragment()).commit();
                     return true;
                 case R.id.navigation_notifications:
                     getSupportFragmentManager().beginTransaction().replace(R.id.content, new EventsFragment()).commit();
@@ -52,10 +55,24 @@ public class HomeActivity extends AppCompatActivity {
     };
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.content,new FriendListFragment()).addToBackStack(getClass().getCanonicalName()).commit();
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+
         if (AccessToken.getCurrentAccessToken()==null||AccessToken.getCurrentAccessToken().isExpired()) {
             AccessToken.refreshCurrentAccessTokenAsync(new AccessToken.AccessTokenRefreshCallback() {
                 @Override

@@ -54,7 +54,7 @@
             android:exported="true" />
 
         <activity android:name=".InstagramActivity" />
-
+        <activity android:name=".TwitterActivity"></activity>
     </application>
 
 </manifest>
